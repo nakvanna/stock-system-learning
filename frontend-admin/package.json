@@ -1,0 +1,57 @@
+{
+  "name": "frontend-admin",
+  "version": "0.0.1",
+  "description": "frontend for admin control",
+  "productName": "fronted-admin",
+  "author": "nakvanna",
+  "private": true,
+  "scripts": {
+    "test": "echo \"No test specified\" && exit 0"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.2.5",
+    "@quasar/extras": "^1.0.0",
+    "@syncfusion/ej2-vue-calendars": "^18.3.53",
+    "@syncfusion/ej2-vue-grids": "^18.3.53",
+    "@types/apollo-upload-client": "^14.1.0",
+    "@types/shortid": "^0.0.29",
+    "@types/vue-cropperjs": "^4.1.1",
+    "@vue/apollo-composable": "4.0.0-alpha.10",
+    "@vue/composition-api": "^0.6.4",
+    "apollo-client": "^2.6.10",
+    "apollo-link-context": "^1.0.20",
+    "apollo-upload-client": "^14.1.2",
+    "axios": "^0.18.1",
+    "core-js": "^3.6.5",
+    "firebase": "^7.22.0",
+    "jsreport-browser-client-dist": "^1.3.0",
+    "jsreport-client": "^1.2.0",
+    "quasar": "^1.0.0",
+    "shortid": "^2.2.15",
+    "typescript": "3.9.5",
+    "vue-advanced-cropper": "^0.17.3",
+    "vue-apollo": "^3.0.0-alpha.3",
+    "vue-cropperjs": "^4.1.0",
+    "vue-i18n": "^8.0.0"
+  },
+  "devDependencies": {
+    "@quasar/app": "^2.0.0",
+    "@types/node": "^10.17.15"
+  },
+  "browserslist": [
+    "last 10 Chrome versions",
+    "last 10 Firefox versions",
+    "last 4 Edge versions",
+    "last 7 Safari versions",
+    "last 8 Android versions",
+    "last 8 ChromeAndroid versions",
+    "last 8 FirefoxAndroid versions",
+    "last 10 iOS versions",
+    "last 5 Opera versions"
+  ],
+  "engines": {
+    "node": ">= 10.18.1",
+    "npm": ">= 6.13.4",
+    "yarn": ">= 1.21.1"
+  }
+}
