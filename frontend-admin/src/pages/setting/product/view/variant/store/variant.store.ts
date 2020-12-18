@@ -5,7 +5,6 @@ import {create_variant_graphql} from "../graphql/create-variant.graphql";
 import {variant_graphql} from "../graphql/brand.graphql";
 import {update_variant_graphql} from "../graphql/update-variant.graphql";
 import {remove_variant_graphql} from "../graphql/remove-variant.graphql";
-import {VariantOptionModel} from "pages/setting/product/view/variant/view/variant-option/model/variant-option.model";
 
 /***CRUD Action***/
 
@@ -44,7 +43,8 @@ export function createVariant(prop: any, context: any) {
       const _data = data?.data.createVariant
       if (_data.success) {
         create_data.value = [{
-          create_variant_option_input: [{} as VariantOptionModel]
+          name: '',
+          create_variant_option_input: []
         }];
         context.emit('on-success')
       }
