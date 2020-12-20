@@ -34,7 +34,7 @@ export const selected_product = ref({}) as any;
 export function createProduct(prop: any, context: any) {
   //--variables--//
   const create_data = ref<ProductModel>({
-    thumbnail: 'https://i.ibb.co/BthkpNQ/profile-avatar.png',
+    thumbnail: 'https://i.ibb.co/NSwMBP0/Screenshot-from-2020-12-03-11-26-31.png',
     create_variant_input: [{} as VariantModel]
   });
   //--end-variables--//
@@ -78,7 +78,7 @@ export function createProduct(prop: any, context: any) {
   onDone((data: any) => {
     if (data.data.createProduct.success) {
       create_data.value = {
-        thumbnail: 'thumbnail.jpg',
+        thumbnail: 'https://i.ibb.co/NSwMBP0/Screenshot-from-2020-12-03-11-26-31.png',
         create_variant_input: [{} as VariantModel]
       };
       context.emit('on-success')

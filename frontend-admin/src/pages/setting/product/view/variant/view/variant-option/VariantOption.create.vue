@@ -7,16 +7,10 @@
     <q-card>
       <q-card-section class="q-pt-none">
         <q-form
-          @submit="create"
+          @submit="createData"
         >
           <div class="row">
-            <q-input
-              class="full-width"
-              v-model="create_data.name"
-              label="ឈ្មោះម៉ូដ"
-              hint="បំពេញឈ្មោះ"
-              :rules="[ val => !!val || 'សូមបំពេញចន្លោះ']"
-            />
+            <tag-input label="Variant option" v-model="create_data.temp_name"/>
           </div>
           <div class="row q-mt-md">
             <q-btn rounded flat class="bg-blue-1" color="primary" type="submit"
@@ -31,23 +25,24 @@
 </template>
 
 <script lang="ts">
-import {computed, defineComponent, ref} from "@vue/composition-api";
-import {createBrand} from "pages/brand/store/brand.store";
-import {createGlobal} from "pages/global.store";
-import {create_brand_graphql} from "pages/brand/graphql/create-brand.graphql";
-import {BrandModel} from "pages/brand/model/brand.model";
+import {computed, ref} from "@vue/composition-api";
+import TagInput from "components/TagInput.vue";
+import {createVariantOption} from "./store/variant-option.store";
 
-export default defineComponent({
-  name: "brand.create",
+export default {
+  name: "VariantOptionCreate",
+  components: {TagInput},
   props: {
     value: {
       type: Boolean,
       default: false
+    },
+    variant_id: {
+      type: String
     }
   },
-  setup(prop, context){
+  setup(prop: any, context: any) {
     const dialog = ref(false);
-    const create_data = ref<BrandModel>({})
     const isShow = computed({
       get: () => prop.value,
       set: (value) => {
@@ -55,22 +50,17 @@ export default defineComponent({
       },
     });
 
-    const mapped = computed(function () {
-      return {
-        ...create_data.value,
-      }
-    });
-
-    const {create} = createGlobal(context, mapped, create_brand_graphql)
+    const {create_data, createData, mapped} = createVariantOption(prop, context)
 
     return {
       dialog,
       isShow,
       create_data,
-      create,
+      createData,
+      mapped
     }
   }
-})
+}
 </script>
 
 <style scoped>

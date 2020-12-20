@@ -50,7 +50,6 @@
           </div>
         </q-form>
       </q-card-section>
-      {{ mapped }}
     </q-card>
   </q-dialog>
 </template>
@@ -86,7 +85,9 @@ export default {
     }
 
     function minus(index: number) {
-      create_data.value.splice(index, 1)
+      if (create_data.value.length > 1) {
+        create_data.value.splice(index, 1)
+      }
     }
 
     const {create_data, createVariantData, mapped} = createVariant(prop, context);

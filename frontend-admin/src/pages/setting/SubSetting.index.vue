@@ -39,13 +39,9 @@
 
 <script lang="ts">
 import DataTable from 'components/DataTable.vue';
-import {defineComponent} from '@vue/composition-api';
 
-export default defineComponent({
+export default {
   name: 'TypeofIndex',
   components: {DataTable},
-  setup(prop, context) {
-    return {};
-  }
-});
+};
 </script>

@@ -30,14 +30,19 @@ function onSuccess(_data: any, context: any) {
 /*CREATE*/
 export function createVariantOption(prop: any, context: any) {
   //--variables--//
-  const create_data = ref<VariantOptionModel>({});
+  const create_data = ref<VariantOptionModel>({
+    temp_name: []
+  });
   //--end-variables--//
 
   //--computed--//
   const mapped = computed(function () {
-    return {
-      ...create_data.value,
-    }
+    return create_data.value.temp_name.map((n: any) => {
+      return {
+        variant_id: prop.variant_id,
+        name: n
+      }
+    })
   });
   //--end-computed--//
 
@@ -51,12 +56,14 @@ export function createVariantOption(prop: any, context: any) {
 
   //--create vue apollo--//
   const {mutate: create, onDone} = useMutation(create_variant_option_graphql, () => ({
-    variables: mapped.value,
+    variables: {create_input: {multiple: mapped.value}},
   }));
 
   onDone((data: any) => {
     if (data.data.createVariantOption.success) {
-      create_data.value = {};
+      create_data.value = {
+        temp_name: []
+      };
       context.emit('on-success')
     }
   })
@@ -66,6 +73,7 @@ export function createVariantOption(prop: any, context: any) {
   return {
     create_data,
     createData,
+    mapped
   }
 }
 

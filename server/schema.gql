@@ -292,7 +292,7 @@ type Mutation {
   createVariant(create_input: CreateVariantInputs!): VariantType!
   updateVariant(update_input: UpdateVariantInput!, id: String!): VariantType!
   removeVariant(id: String!): VariantType!
-  createVariantOption(create_input: CreateVariantOptionInput!): VariantOptionType!
+  createVariantOption(create_input: CreateVariantOptionInputs!): VariantOptionType!
   updateVariantOption(update_input: UpdateVariantOptionInput!, id: String!): VariantOptionType!
   removeVariantOption(id: String!): VariantOptionType!
   createSku(create_input: CreateSkuInput!): SkuType!
@@ -372,6 +372,11 @@ input UpdateVariantInput {
   product_id: String
   name: String
   status: Boolean
+}
+
+input CreateVariantOptionInputs {
+  multiple: [CreateVariantOptionInput!]
+  single: CreateVariantOptionInput
 }
 
 input UpdateVariantOptionInput {

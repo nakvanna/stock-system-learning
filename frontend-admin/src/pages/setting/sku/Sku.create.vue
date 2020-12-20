@@ -87,6 +87,7 @@
                         v-model="create_data.create_product_option_input[index]"
                         :options="item.variant_option"
                         :label="item.name"
+                        :rules="[ val => !!val || 'សូមបំពេញចន្លោះ']"
                       />
                     </div>
                   </div>
@@ -158,7 +159,7 @@ import {product_graphql} from "pages/setting/product/graphql/product.graphql";
 import {createSku} from "pages/setting/sku/store/sku.store";
 
 export default defineComponent({
-  name: "brand.create",
+  name: "SkuCreate",
   components: {SearchSelect},
   setup(prop, context) {
     const isImgPicker = ref(false)
@@ -204,6 +205,7 @@ export default defineComponent({
       sub_categories: filter_sub_categories_graphql,
       products: product_graphql,
     });
+
     watch(() => filter_sub_category.value, (val) => {
       sub_cate_ref.value.filterSelect(val)
     });

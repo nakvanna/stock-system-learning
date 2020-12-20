@@ -27,16 +27,21 @@ export class ProductResolver {
     @Mutation(() => ProductType)
     async createProduct(@Args('create_input') create_input: CreateProductInput) {
         const product = await this.service.create(create_input);
-        create_input.create_variant_input.map(async m => {
-            // @ts-ignore
-            await this.variantService.create({product_id: product._id, name: m.name}).then((data) => {
+        if (product.success) {
+            create_input.create_variant_input.map(async m => {
                 // @ts-ignore
-                m.create_variant_option_input.map(m1 => {
-                    // @ts-ignore
-                    this.variantOptionsService.create({variant_id: data._id, name: m1.name})
-                })
+                await this.variantService.create({product_id: product._id, name: m.name}).then((data) => {
+                    if (data.success) {
+                        // @ts-ignore
+                        m.create_variant_option_input.map(m1 => {
+                            // @ts-ignore
+                            this.variantOptionsService.create({variant_id: data._id, name: m1.name})
+                        })
+                    }
+                });
             });
-        });
+        }
+
         return product;
     }
 

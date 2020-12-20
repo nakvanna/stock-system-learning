@@ -97,7 +97,6 @@
                     </th>
                     <th class="text-left">
                       តម្លៃវ៉ារ្យ៉ង់
-                      <q-btn v-if="selected_product._id" flat round icon="add"/>
                     </th>
                   </tr>
                   <tr :key="index" v-for="(item, index) in selected_product.variant">
@@ -116,6 +115,8 @@
                         <q-input v-model="itm.name" dense autofocus/>
                       </q-popup-edit>
                       </span>
+                      <q-btn v-if="selected_product._id" @click="showVariantOption(item._id)" flat round
+                             icon="add"/>
                     </td>
                   </tr>
                 </table>
@@ -126,6 +127,7 @@
         </q-card-section>
       </q-card>
       <variant-create :product_id="selected_product._id" v-model="dialog.variant_create"/>
+      <variant-option-create :variant_id="variant_id" v-model="dialog.variant_option_create"/>
     </q-page>
   </div>
 </template>
@@ -142,20 +144,28 @@ import ImageCropper from "components/ImageCropper.vue";
 import {updateVariant} from "pages/setting/product/view/variant/store/variant.store";
 import {updateVariantOption} from "pages/setting/product/view/variant/view/variant-option/store/variant-option.store";
 import VariantCreate from "pages/setting/product/view/variant/Variant.create.vue";
+import VariantOptionCreate from "pages/setting/product/view/variant/view/variant-option/VariantOption.create.vue";
 
 export default {
   name: "Product.view",
-  components: {VariantCreate, DataTable, SearchSelect, ImageCropper},
+  components: {VariantOptionCreate, VariantCreate, DataTable, SearchSelect, ImageCropper},
   setup(props: any, context: any) {
     const isImgPicker = ref(false);
     const dialog = reactive({
-      variant_create: false
+      variant_create: false,
+      variant_option_create: false
     })
+    const variant_id = ref('');
     const query = reactive({
       categories: category_graphql,
       sub_categories: filter_sub_categories_graphql,
       brands: brand_graphql,
     });
+
+    function showVariantOption(vid: string) {
+      dialog.variant_option_create = true;
+      variant_id.value = vid;
+    }
 
     const {updateData} = updateProduct(props, context);
     const {updateVariantData} = updateVariant(props, context);
@@ -169,6 +179,8 @@ export default {
       updateVariantOptionData,
       query,
       selected_product,
+      variant_id,
+      showVariantOption,
       tab: 'product-view'
     };
   }

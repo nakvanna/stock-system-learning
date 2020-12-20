@@ -17,21 +17,20 @@ export class VariantResolver {
     }
 
     @Mutation(() => VariantType)
-    createVariant(@Args('create_input') create_input: CreateVariantInputs) {
+    async createVariant(@Args('create_input') create_input: CreateVariantInputs) {
         try {
-            create_input.multiple.map(async item => {
+            await create_input.multiple.map(async item => {
                 //@ts-ignore
-                await this.service.create({product_id: item.product_id, name: item.name}).then((data) => {
-                    //@ts-ignore
-                    item.create_variant_option_input.map(async (item1: any) => {
-                        // @ts-ignore
-                        await this.variantOptionService.create({variant_id: data._id, name: item1.name});
-                    });
+                const variant = await this.service.create({product_id: item.product_id, name: item.name});
+                //@ts-ignore //Loop insert variant option by variant id
+                item.create_variant_option_input.map(async (item1: any) => {
+                    // @ts-ignore
+                    await this.variantOptionService.create({variant_id: variant._id, name: item1.name});
                 });
             });
             return {
                 message: 'បានរក្សាទុក',
-                success: true
+                success: true,
             }
         } catch (e) {
             return {

@@ -20,7 +20,6 @@
                 :img-src="create_data.thumbnail"
               />
             </div>
-
             <div class="row q-mt-md">
               <search-select
                 class="col-4"
@@ -137,7 +136,7 @@
             <q-btn rounded flat class="bg-transparent" color="negative" label="បិទ" v-close-popup/>
           </div>
         </q-form>
-        {{ mapped }}
+        <!--        {{ mapped }}-->
       </q-card-section>
     </q-card>
   </q-dialog>
