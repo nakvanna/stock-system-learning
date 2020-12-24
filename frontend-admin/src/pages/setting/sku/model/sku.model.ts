@@ -8,7 +8,6 @@ export interface SkuModel {
   discount?: number;
   price?: number;
   status?: boolean;
-  data?: any;
   create_product_option_input: [] | any;
 }
 

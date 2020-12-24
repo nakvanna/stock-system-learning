@@ -147,75 +147,6 @@ type VariantCursorPagination {
   pageInfo: VariantTypePageInfo
 }
 
-type ProductType {
-  createdAt: DateTime
-  updatedAt: DateTime
-  success: Boolean
-  message: String
-  _id: ID
-  sub_category_id: String
-  brand_id: String
-  name: String
-  slug: String
-  description: String
-  thumbnail: String
-  status: Boolean
-  sub_category: SubCategoryType!
-  brand: BrandType!
-  variant: [VariantType!]!
-}
-
-type ProductTypeEdge {
-  cursor: String
-  node: ProductType
-}
-
-type ProductTypePageInfo {
-  hasNextPage: Boolean
-  endCursor: String
-}
-
-type ProductCursorPagination {
-  edges: [ProductTypeEdge!]
-  nodes: [ProductType!]
-  totalCount: Int
-  pageInfo: ProductTypePageInfo
-}
-
-type SkuType {
-  createdAt: DateTime
-  updatedAt: DateTime
-  success: Boolean
-  message: String
-  _id: ID
-  product_id: String
-  sku: String
-  name: String
-  ranking: Float
-  weight: Float
-  discount: Float
-  price: Float
-  status: Boolean
-  product: ProductType!
-}
-
-type SkuTypeEdge {
-  cursor: String
-  node: SkuType
-}
-
-type SkuTypePageInfo {
-  hasNextPage: Boolean
-  endCursor: String
-}
-
-type SkuCursorPagination {
-  edges: [SkuTypeEdge!]
-  nodes: [SkuType!]
-  totalCount: Int
-  pageInfo: SkuTypePageInfo
-}
-
 type ProductOptionType {
   createdAt: DateTime
   updatedAt: DateTime
@@ -224,6 +155,7 @@ type ProductOptionType {
   _id: ID
   sku_id: String
   variant_option_id: String
+  variant_option: VariantOptionType
   status: Boolean
 }
 
@@ -244,6 +176,77 @@ type ProductOptionCursorPagination {
   pageInfo: ProductOptionTypePageInfo
 }
 
+type SkuType {
+  createdAt: DateTime
+  updatedAt: DateTime
+  success: Boolean
+  message: String
+  _id: ID
+  product_id: String
+  sku: String
+  name: String
+  ranking: Float
+  weight: Float
+  discount: Float
+  price: Float
+  status: Boolean
+  product: ProductType!
+  product_option: [ProductOptionType!]!
+}
+
+type SkuTypeEdge {
+  cursor: String
+  node: SkuType
+}
+
+type SkuTypePageInfo {
+  hasNextPage: Boolean
+  endCursor: String
+}
+
+type SkuCursorPagination {
+  edges: [SkuTypeEdge!]
+  nodes: [SkuType!]
+  totalCount: Int
+  pageInfo: SkuTypePageInfo
+}
+
+type ProductType {
+  createdAt: DateTime
+  updatedAt: DateTime
+  success: Boolean
+  message: String
+  _id: ID
+  sub_category_id: String
+  brand_id: String
+  name: String
+  slug: String
+  description: String
+  thumbnail: String
+  status: Boolean
+  sub_category: SubCategoryType!
+  brand: BrandType!
+  variant: [VariantType!]!
+  sku: [SkuType!]!
+}
+
+type ProductTypeEdge {
+  cursor: String
+  node: ProductType
+}
+
+type ProductTypePageInfo {
+  hasNextPage: Boolean
+  endCursor: String
+}
+
+type ProductCursorPagination {
+  edges: [ProductTypeEdge!]
+  nodes: [ProductType!]
+  totalCount: Int
+  pageInfo: ProductTypePageInfo
+}
+
 type Query {
   helloWorld: String!
   brands(options: InputCursorPaginationOption!): BrandCursorPagination!
@@ -258,10 +261,10 @@ type Query {
   variant(id: ID!): VariantType!
   variant_options(options: InputCursorPaginationOption!): VariantOptionCursorPagination!
   variant_option(id: ID!): VariantOptionType!
-  skus(options: InputCursorPaginationOption!): SkuCursorPagination!
-  sku(id: ID!): SkuType!
   product_options(options: InputCursorPaginationOption!): ProductOptionCursorPagination!
   product_option(id: ID!): ProductOptionType!
+  skus(options: InputCursorPaginationOption!): SkuCursorPagination!
+  sku(id: ID!): SkuType!
 }
 
 input InputCursorPaginationOption {
@@ -295,12 +298,12 @@ type Mutation {
   createVariantOption(create_input: CreateVariantOptionInputs!): VariantOptionType!
   updateVariantOption(update_input: UpdateVariantOptionInput!, id: String!): VariantOptionType!
   removeVariantOption(id: String!): VariantOptionType!
-  createSku(create_input: CreateSkuInput!): SkuType!
-  updateSku(update_input: UpdateSkuInput!, id: String!): SkuType!
-  removeSku(id: String!): SkuType!
   createProductOption(create_input: CreateProductOptionInput!): ProductOptionType!
   updateProductOption(update_input: UpdateProductOptionInput!, id: String!): ProductOptionType!
   removeProductOption(id: String!): ProductOptionType!
+  createSku(create_input: CreateSkuInput!): SkuType!
+  updateSku(update_input: UpdateSkuInput!, id: String!): SkuType!
+  removeSku(id: String!): SkuType!
 }
 
 input CreateBrandInput {
@@ -385,6 +388,17 @@ input UpdateVariantOptionInput {
   status: Boolean
 }
 
+input CreateProductOptionInput {
+  sku_id: String
+  variant_option_id: String
+}
+
+input UpdateProductOptionInput {
+  sku_id: String
+  product_option_id: String
+  status: Boolean
+}
+
 input CreateSkuInput {
   product_id: String
   sku: String
@@ -396,11 +410,6 @@ input CreateSkuInput {
   create_product_option_input: [CreateProductOptionInput!]
 }
 
-input CreateProductOptionInput {
-  sku_id: String
-  variant_option_id: String
-}
-
 input UpdateSkuInput {
   product_id: String
   sku: String
@@ -409,11 +418,5 @@ input UpdateSkuInput {
   weight: Float
   discount: Float
   price: Float
-  status: Boolean
-}
-
-input UpdateProductOptionInput {
-  sku_id: String
-  product_option_id: String
   status: Boolean
 }

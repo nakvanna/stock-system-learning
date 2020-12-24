@@ -1,10 +1,10 @@
-import {computed, reactive, ref, watch} from "@vue/composition-api";
-import { useMutation } from "@vue/apollo-composable";
-import { ProductOptionModel, SkuModel} from "pages/setting/sku/model/sku.model";
-import { sku_graphql} from "pages/setting/sku/graphql/sku.graphql";
-import { update_sku_graphql } from "../graphql/update-sku.graphql";
-import { remove_sku_graphql } from "../graphql/remove-sku.graphql";
-import { create_sku_graphql } from "../graphql/create-sku.graphql";
+import {computed, ref, watch} from "@vue/composition-api";
+import {useMutation} from "@vue/apollo-composable";
+import {SkuModel} from "pages/setting/sku/model/sku.model";
+import {sku_graphql} from "pages/setting/sku/graphql/sku.graphql";
+import {update_sku_graphql} from "../graphql/update-sku.graphql";
+import {remove_sku_graphql} from "../graphql/remove-sku.graphql";
+import {create_sku_graphql} from "../graphql/create-sku.graphql";
 
 //--OnDone message--//
 function onSuccess(_data: any, context: any) {
@@ -29,7 +29,7 @@ export const selected_sku = ref({}) as any;
 /***CRUD Action***/
 
 /*CREATE*/
-export function createSku(prop: any, context: any){
+export function createSku(prop: any, context: any) {
   //--variables--//
   const create_data = ref<SkuModel>({
     discount: 0,
@@ -42,7 +42,7 @@ export function createSku(prop: any, context: any){
     return {
       ...create_data.value,
       product_id: create_data.value.product_id?._id,
-      create_product_option_input: create_data.value.create_product_option_input.map((m:any) => {
+      create_product_option_input: create_data.value.create_product_option_input.map((m: any) => {
         return {
           sku_id: '',
           variant_option_id: m._id
@@ -65,8 +65,8 @@ export function createSku(prop: any, context: any){
     variables: {create_input: mapped.value},
   }));
 
-  onDone((data: any) =>{
-    if (data.data.createSku.success){
+  onDone((data: any) => {
+    if (data.data.createSku.success) {
       create_data.value = {
         discount: 0,
         create_product_option_input: []
@@ -123,7 +123,7 @@ export const readSku = (table: any) => {
   const mapSku = (x: any) => {
     return {
       ...x.node,
-      discount: '%'+x.node.discount,
+      discount: '%' + x.node.discount,
       product: x.node.product.name,
       createdAt: new Date(new Date(x.node.createdAt).toDateString()),
     }
@@ -162,7 +162,7 @@ export const readSku = (table: any) => {
 };
 
 /*UPDATE*/
-export function updateSku(prop:any, context:any, table: any){
+export function updateSku(prop: any, context: any, table: any) {
   //--variables--//
   const update_data = ref<SkuModel>({
     discount: 0,
@@ -170,9 +170,13 @@ export function updateSku(prop:any, context:any, table: any){
   });
   //--end variables--//
 
+  //--computed--//
+  const mapped = computed(function () {
+    return update_data.value
+  })
+
   //--function--//
   const updateData = async (_data: any, id: string) => {
-    update_data.value.data = _data;
     update_data.value._id = id;
     context.root.$q.dialog({
       title: 'ផ្ទៀងផ្ទាត់',
@@ -188,12 +192,12 @@ export function updateSku(prop:any, context:any, table: any){
   //--end function--//
 
   //--update vue apollo--//
-  const { mutate: update, onDone } = useMutation( update_sku_graphql, () => ({
-    variables: { id: update_data.value!._id, update_input: update_data.value.data },
+  const {mutate: update, onDone} = useMutation(update_sku_graphql, () => ({
+    variables: {id: update_data.value!._id, update_input: mapped.value},
   }));
 
-  onDone((data: any) =>{
-    if (data.data.updateSku.success){
+  onDone((data: any) => {
+    if (data.data.updateSku.success) {
       table.value.refetch();
     }
   })
@@ -205,13 +209,13 @@ export function updateSku(prop:any, context:any, table: any){
 }
 
 /*DELETE*/
-export function deleteSku(prop:any, context:any, table: any){
+export function deleteSku(prop: any, context: any, table: any) {
   //--variables--//
   const id = ref("");
   //--end variables--//
 
   //--function--//
-  const removeData = (_id: string)=> {
+  const removeData = (_id: string) => {
     id.value = _id;
     context.root.$q.dialog({
       title: 'ផ្ទៀងផ្ទាត់',
@@ -231,8 +235,8 @@ export function deleteSku(prop:any, context:any, table: any){
     variables: {id: id.value}
   }));
 
-  onDone((data: any) =>{
-    if (data.data.removeSku.success){
+  onDone((data: any) => {
+    if (data.data.removeSku.success) {
       table.value.refetch();
     }
   })

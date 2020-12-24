@@ -27,11 +27,21 @@
           </q-tabs>
         </div>
         <q-card style="min-width: 650px">
-          <q-card-section class="q-my-lg">
+          <q-card-section class="q-mb-lg">
             <q-form
               @submit="createData"
             >
               <div>
+                <div align="center">
+                  <q-avatar @click="isImgPicker = true" size="125px" class="shadow-3 cursor-pointer">
+                    <q-img :src="create_data.thumbnail"/>
+                  </q-avatar>
+                  <image-cropper
+                    :uploaded.sync="create_data.thumbnail"
+                    v-model="isImgPicker"
+                    :img-src="create_data.thumbnail"
+                  />
+                </div>
                 <div class="row q-mt-md">
                   <!--                  <search-select
                                       class="col-4"
@@ -80,7 +90,9 @@
 
                 <q-slide-transition :duration="1000">
                   <div class="q-pa-xs" v-if="create_data.product_id">
-                    <div class="row q-py-md" :key="index" v-for="(item, index) in create_data.product_id.variant">
+                    <span class="text-h6">Variants</span>
+                    <div class="row q-pa-xs bg-grey-3" :key="index"
+                         v-for="(item, index) in create_data.product_id.variant">
                       <q-select
                         class="full-width"
                         dense outlined
@@ -157,10 +169,11 @@ import {category_graphql} from "pages/setting/sub-setting/category/graphql/categ
 import {filter_sub_categories_graphql} from "pages/setting/sub-setting/sub-category/graphql/sub-category.graphql";
 import {product_graphql} from "pages/setting/product/graphql/product.graphql";
 import {createSku} from "pages/setting/sku/store/sku.store";
+import ImageCropper from "components/ImageCropper.vue";
 
 export default defineComponent({
   name: "SkuCreate",
-  components: {SearchSelect},
+  components: {ImageCropper, SearchSelect},
   setup(prop, context) {
     const isImgPicker = ref(false)
     const sub_cate_ref = ref();

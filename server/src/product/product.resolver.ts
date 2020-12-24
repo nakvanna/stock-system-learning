@@ -12,6 +12,8 @@ import {BrandService} from "../brand/brand.service";
 import {VariantService} from 'src/variant/variant.service';
 import {VariantOptionService} from "../variant-option/variant-option.service";
 import {VariantType} from "../variant/dto/variant.dto";
+import {SkuService} from "../sku/sku.service";
+import {SkuType} from "../sku/dto/sku.dto";
 
 @Resolver(() => ProductType)
 export class ProductResolver {
@@ -20,7 +22,8 @@ export class ProductResolver {
         private readonly subCategoryService: SubCategoryService,
         private readonly brandService: BrandService,
         private readonly variantService: VariantService,
-        private readonly variantOptionsService: VariantOptionService
+        private readonly variantOptionsService: VariantOptionService,
+        private readonly skuService: SkuService,
     ) {
     }
 
@@ -81,5 +84,10 @@ export class ProductResolver {
     @ResolveField(() => [VariantType])
     variant(@Parent() product: ProductModel) {
         return this.variantService.findByProduct(product._id);
+    }
+
+    @ResolveField(() => [SkuType])
+    sku(@Parent() product: ProductModel) {
+        return this.skuService.findByProduct(product._id);
     }
 }

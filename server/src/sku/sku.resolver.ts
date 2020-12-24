@@ -57,4 +57,9 @@ export class SkuResolver {
     product(@Parent() sku: SkuModel) {
         return this.productService.findBySku(sku.product_id);
     }
+
+    @ResolveField(() => ProductType)
+    product_option(@Parent() sku: SkuModel) {
+        return this.productOptionService.findBySku(sku._id);
+    }
 }

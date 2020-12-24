@@ -3,21 +3,19 @@ import {InjectModel} from '@nestjs/mongoose';
 import {Model} from 'mongoose';
 import {ErrorHandlingMessage} from '../../shared/utils';
 import {applyPagination, InputCursorPaginationOption,} from '../../shared/cursor-pagination';
-import {ProductOptionModel} from './models/product-option.model';
-import {CreateProductOptionInput} from './input/create-product-option.input';
-import {ProductOptionCursorPagination} from './dto/product-option.dto';
-import {UpdateProductOptionInput} from './input/update-product-option.input';
+import {PurchaseModel} from "./models/purchase.model";
+import {CreatePurchaseInput} from './input/create-purchase.input';
+import {PurchaseCursorPagination} from './dto/purchase.dto';
+import {UpdatePurchaseInput} from './input/update-purchase.input';
 
 @Injectable()
-export class ProductOptionService {
-    constructor(
-        @InjectModel('ProductOption') private model: Model<ProductOptionModel>,
-    ) {
+export class PurchaseService {
+    constructor(@InjectModel('Purchase') private model: Model<PurchaseModel>) {
     }
 
     async create(
-        create_input: CreateProductOptionInput,
-    ): Promise<ProductOptionModel | ErrorHandlingMessage> {
+        create_input: CreatePurchaseInput,
+    ): Promise<PurchaseModel | ErrorHandlingMessage> {
         try {
             const model = new this.model(create_input);
             const data = await model.save();
@@ -34,13 +32,11 @@ export class ProductOptionService {
 
     async findAll(
         options: InputCursorPaginationOption,
-    ): Promise<ProductOptionCursorPagination> {
+    ): Promise<PurchaseCursorPagination> {
         return await applyPagination(this.model, options);
     }
 
-    async findOne(
-        id: string,
-    ): Promise<ProductOptionModel | ErrorHandlingMessage> {
+    async findOne(id: string): Promise<PurchaseModel | ErrorHandlingMessage> {
         try {
             const data = await this.model.findById(id);
             data.message = 'បានស្វែងរក';
@@ -56,8 +52,8 @@ export class ProductOptionService {
 
     async update(
         id: string,
-        update_input: UpdateProductOptionInput,
-    ): Promise<ProductOptionModel | ErrorHandlingMessage> {
+        update_input: UpdatePurchaseInput,
+    ): Promise<PurchaseModel | ErrorHandlingMessage> {
         try {
             const data = await this.model.findByIdAndUpdate(
                 id,
@@ -75,7 +71,7 @@ export class ProductOptionService {
         }
     }
 
-    async remove(id: string): Promise<ProductOptionModel | ErrorHandlingMessage> {
+    async remove(id: string): Promise<PurchaseModel | ErrorHandlingMessage> {
         try {
             const data = await this.model.findById(id);
             await this.model.findByIdAndDelete(id);
@@ -90,7 +86,7 @@ export class ProductOptionService {
         }
     }
 
-    async findBySku(sku_id: string): Promise<ProductOptionModel[]> {
-        return this.model.find({sku_id});
+    async findByParent(_id: string): Promise<PurchaseModel> {
+        return this.model.findOne({_id})
     }
 }
