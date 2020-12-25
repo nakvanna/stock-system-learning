@@ -167,7 +167,7 @@ import {computed, defineComponent, reactive, ref, watch} from "@vue/composition-
 import SearchSelect from "components/SearchSelect.vue";
 import {category_graphql} from "pages/setting/sub-setting/category/graphql/category.graphql";
 import {filter_sub_categories_graphql} from "pages/setting/sub-setting/sub-category/graphql/sub-category.graphql";
-import {product_graphql} from "pages/setting/product/graphql/product.graphql";
+import {product_graphql} from "pages/setting/product-old/graphql/product.graphql";
 import {createSku} from "pages/setting/sku/store/sku.store";
 import ImageCropper from "components/ImageCropper.vue";
 

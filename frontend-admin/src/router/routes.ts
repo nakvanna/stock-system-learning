@@ -10,13 +10,19 @@ const routes: RouteConfig[] = [
       {
         path: '/settings', component: () => import('pages/setting/Setting.index.vue'),
         children: [
-          {path: '/', meta: 'settings', component: () => import('pages/setting/product/Product.index.vue')},
+          {
+            path: '/',
+            meta: 'settings',
+            component: () => import('pages/setting/product/Product.index.vue')
+          },
           {path: '/settings/sku', meta: 'settings', component: () => import('pages/setting/sku/Sku.index.vue')},
         ]
       },
-      {path: '/product-view', meta: 'settings', component: () => import('pages/setting/product/Product.view.vue')},
-      {path: '/list-create', meta: 'settings', component: () => import('pages/setting/product/ProductList.create.vue')},
-      {path: '/sku-create', meta: 'settings', component: () => import('pages/setting/sku/Sku.create.vue')},
+      {
+        path: '/settings/products/new',
+        meta: 'settings',
+        component: () => import('pages/setting/product/Product.create.vue')
+      },
       {
         path: '/other-settings', meta: 'settings', component: () => import('pages/setting/SubSetting.index.vue'),
         children: [

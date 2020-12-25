@@ -19,7 +19,7 @@
           flat round size="12px"
           icon="fas fa-list"
           to="/list-create"/>
-        <q-btn flat round size="12px" icon="add" to="/settings/products/new"/>
+        <q-btn flat round size="12px" icon="add" @click="dialog = true"/>
         <div class="q-pt-sm text-subtitle2 text-secondary">
           ទិន្នន័យសរុប {{ grid_data.record_value.total_record - 1 }} ទិន្នន័យបានទាញយក
           {{ grid_data.record_value.total_item }}
@@ -50,6 +50,7 @@
         <e-column field='createdAt' headerText='កាលបរិច្ឆេទ' format="d/M/y" type="date" textAlign='Left'/>
       </e-columns>
     </e-j-s-grid>
+    <product-create v-model="dialog" @on-success="table.refetch()"/>
   </q-page>
 </template>
 
@@ -62,7 +63,7 @@ import EJSGrid from "components/EJSGrid.vue";
 export default {
   name: "Product.index",
   components: {ProductCreate, EJSGrid},
-  setup() {
+  setup(props: any, context: any) {
     const table = ref();
     const dialog = ref();
     const {grid_data, mapProduct, showAll} = readProduct(table)
