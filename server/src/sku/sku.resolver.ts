@@ -8,6 +8,7 @@ import {SkuService} from './sku.service';
 import {ProductService} from "../product/product.service";
 import {SkuModel} from './models/sku.model';
 import {ProductType} from "../product/dto/product.dto";
+import {SkuGalleryService} from "../sku-gallery/sku-gallery.service";
 
 @Resolver(() => SkuType)
 export class SkuResolver {
@@ -15,6 +16,7 @@ export class SkuResolver {
         private readonly service: SkuService,
         private readonly productOptionService: ProductOptionService,
         private readonly productService: ProductService,
+        private readonly skuGalleryService: SkuGalleryService,
     ) {
     }
 
@@ -61,5 +63,10 @@ export class SkuResolver {
     @ResolveField(() => ProductType)
     product_option(@Parent() sku: SkuModel) {
         return this.productOptionService.findBySku(sku._id);
+    }
+
+    @ResolveField(() => ProductType)
+    sku_gallery(@Parent() sku: SkuModel) {
+        return this.skuGalleryService.findBySku(sku._id);
     }
 }

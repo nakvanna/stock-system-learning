@@ -33,10 +33,13 @@
           </q-card-section>
           <q-card-section class="q-pt-none">
             <div class="text-subtitle1">
-              <span v-if="item.node.sku.length">
-                ${{ Math.min.apply(Math, item.node.sku.map(m => m.price)) }}
+              <span v-if="item.node.sku.length > 1">
+                ${{ Math.min.apply(Math, item.node.sku.map(m => m.price)).toFixed(2) }}
                 -
-                ${{ Math.max.apply(Math, item.node.sku.map(m => m.price)) }}
+                ${{ Math.max.apply(Math, item.node.sku.map(m => m.price)).toFixed(2) }}
+              </span>
+              <span v-else-if="item.node.sku.length === 1">
+                ${{ item.node.sku[0].price.toFixed(2) }}
               </span>
               <span v-else class="text-negative">
                 Unavailable

@@ -90,7 +90,7 @@
 
                 <q-slide-transition :duration="1000">
                   <div class="q-pa-xs" v-if="create_data.product_id">
-                    <span class="text-h6">Variants</span>
+                    <span v-if="!create_data.product_id.variant" class="text-h6">Variants</span>
                     <div class="row q-pa-xs bg-grey-3" :key="index"
                          v-for="(item, index) in create_data.product_id.variant">
                       <q-select

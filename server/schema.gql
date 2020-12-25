@@ -176,6 +176,34 @@ type ProductOptionCursorPagination {
   pageInfo: ProductOptionTypePageInfo
 }
 
+type SkuGalleryType {
+  createdAt: DateTime
+  updatedAt: DateTime
+  success: Boolean
+  message: String
+  _id: ID
+  sku_id: String
+  image: String
+  status: Boolean
+}
+
+type SkuGalleryTypeEdge {
+  cursor: String
+  node: SkuGalleryType
+}
+
+type SkuGalleryTypePageInfo {
+  hasNextPage: Boolean
+  endCursor: String
+}
+
+type SkuGalleryCursorPagination {
+  edges: [SkuGalleryTypeEdge!]
+  nodes: [SkuGalleryType!]
+  totalCount: Int
+  pageInfo: SkuGalleryTypePageInfo
+}
+
 type SkuType {
   createdAt: DateTime
   updatedAt: DateTime
@@ -192,6 +220,7 @@ type SkuType {
   status: Boolean
   product: ProductType!
   product_option: [ProductOptionType!]!
+  sku_gallery: [SkuGalleryType!]!
 }
 
 type SkuTypeEdge {
@@ -265,6 +294,8 @@ type Query {
   product_option(id: ID!): ProductOptionType!
   skus(options: InputCursorPaginationOption!): SkuCursorPagination!
   sku(id: ID!): SkuType!
+  sku_galleries(options: InputCursorPaginationOption!): SkuGalleryCursorPagination!
+  sku_gallery(id: ID!): SkuGalleryType!
 }
 
 input InputCursorPaginationOption {
@@ -304,6 +335,9 @@ type Mutation {
   createSku(create_input: CreateSkuInput!): SkuType!
   updateSku(update_input: UpdateSkuInput!, id: String!): SkuType!
   removeSku(id: String!): SkuType!
+  createSkuGallery(create_input: CreateSkuGalleryInput!): SkuGalleryType!
+  updateSkuGallery(update_input: UpdateSkuGalleryInput!, id: String!): SkuGalleryType!
+  removeSkuGallery(id: String!): SkuGalleryType!
 }
 
 input CreateBrandInput {
@@ -418,5 +452,16 @@ input UpdateSkuInput {
   weight: Float
   discount: Float
   price: Float
+  status: Boolean
+}
+
+input CreateSkuGalleryInput {
+  sku_id: String
+  image: String
+}
+
+input UpdateSkuGalleryInput {
+  sku_id: String
+  image: String
   status: Boolean
 }

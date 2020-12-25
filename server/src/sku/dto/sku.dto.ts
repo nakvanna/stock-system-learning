@@ -3,6 +3,7 @@ import {ProductOptionType} from 'src/product_option/dto/product-option.dto';
 import {CursorPagination} from '../../../shared/cursor-pagination';
 import {ErrorHandlingType} from '../../../shared/utils';
 import {ProductType} from "../../product/dto/product.dto";
+import {SkuGalleryType} from "../../sku-gallery/dto/sku-gallery.dto";
 
 @ObjectType()
 export class SkuType extends PartialType(ErrorHandlingType) {
@@ -28,6 +29,8 @@ export class SkuType extends PartialType(ErrorHandlingType) {
     product: string;
     @Field(() => [ProductOptionType])
     product_option: string[];
+    @Field(() => [SkuGalleryType])
+    sku_gallery: string[];
 }
 
 @ObjectType()

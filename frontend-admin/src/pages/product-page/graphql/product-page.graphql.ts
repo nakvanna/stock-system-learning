@@ -24,6 +24,9 @@ export const product_page_graphql = gql`
                 name
               }
             }
+            sku_gallery{
+              image
+            }
           }
           variant{
             name

@@ -15,6 +15,7 @@ const routes: RouteConfig[] = [
         ]
       },
       {path: '/product-view', meta: 'settings', component: () => import('pages/setting/product/Product.view.vue')},
+      {path: '/list-create', meta: 'settings', component: () => import('pages/setting/product/ProductList.create.vue')},
       {path: '/sku-create', meta: 'settings', component: () => import('pages/setting/sku/Sku.create.vue')},
       {
         path: '/other-settings', meta: 'settings', component: () => import('pages/setting/SubSetting.index.vue'),

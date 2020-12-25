@@ -12,7 +12,21 @@ export const productPageState = () => {
         })
       })
         .flat()
-      // .filter((value: any, index: any, self: any) => self.indexOf(value) === index)
+        .filter((value: any, index: any, self: any) => self.indexOf(value) === index)
+    }
+  })
+
+  const image_list = computed(() => {
+    if (product_selected) {
+      // @ts-ignore
+      return product_selected.value.node.sku.map((m: any) => {
+        return m.sku_gallery
+          .map((m1: any) => {
+            return m1.image
+          })
+      })
+        .flat()
+        .filter((value: any, index: any, self: any) => self.indexOf(value) === index)
     }
   })
 
@@ -22,6 +36,7 @@ export const productPageState = () => {
 
   return {
     valid_option,
+    image_list,
     product_selected,
   }
 }

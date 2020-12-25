@@ -1,68 +1,27 @@
 <template>
   <q-page v-if="result" class="bg-grey-3">
-    <!--    {{ valid_option }}-->
+    {{ image_list }}
     <div class="q-pa-lg row bg-white" style="margin-left: 150px; margin-right: 150px">
       <div class="col-6">
         <div class="full-width">
           <q-img
+            v-if="!selected.length"
             spinner-color="red"
             :src="product_selected.node.thumbnail"
-            style="height: 60%; max-width: 380px"
+            style="height: 60%; width: 380px"
+          />
+          <q-img
+            v-else
+            spinner-color="red"
+            :src="selected[0].sku_gallery[0].image"
+            style="height: 60%; width: 380px"
           />
         </div>
         <div class="row q-gutter-xs">
-          <q-card class="list-image-card">
+          <q-card :key="image_index" v-for="(image, image_index) in image_list" class="list-image-card">
             <q-img
               class="col q-pl-md"
-              src="https://placeimg.com/500/300/nature"
-              spinner-color="red"
-              style="height: 100%"
-            />
-          </q-card>
-          <q-card class="list-image-card">
-            <q-img
-              class="col q-pl-md"
-              src="https://placeimg.com/500/300/nature"
-              spinner-color="red"
-              style="height: 100%"
-            />
-          </q-card>
-          <q-card class="list-image-card">
-            <q-img
-              class="col q-pl-md"
-              src="https://placeimg.com/500/300/nature"
-              spinner-color="red"
-              style="height: 100%"
-            />
-          </q-card>
-          <q-card class="list-image-card">
-            <q-img
-              class="col q-pl-md"
-              src="https://placeimg.com/500/300/nature"
-              spinner-color="red"
-              style="height: 100%"
-            />
-          </q-card>
-          <q-card class="list-image-card">
-            <q-img
-              class="col q-pl-md"
-              src="https://placeimg.com/500/300/nature"
-              spinner-color="red"
-              style="height: 100%"
-            />
-          </q-card>
-          <q-card class="list-image-card">
-            <q-img
-              class="col q-pl-md"
-              src="https://placeimg.com/500/300/nature"
-              spinner-color="red"
-              style="height: 100%"
-            />
-          </q-card>
-          <q-card class="list-image-card">
-            <q-img
-              class="col q-pl-md"
-              src="https://placeimg.com/500/300/nature"
+              :src="image"
               spinner-color="red"
               style="height: 100%"
             />
@@ -88,16 +47,19 @@
         <div class="col-6">
           <div class="row">
             <div class="col">
-              <span v-if="product_selected.node.sku.length" class="text-center text-h6">
-              Price:
+              <span v-if="product_selected.node.sku.length > 1" class="text-center text-h6">
                 <span class="text-weight-bold text-h5" v-if="!selected.length">
+                  Price:
                   ${{ Math.min.apply(Math, product_selected.node.sku.map(m => m.price)).toFixed(2) }}
                   -
                   ${{ Math.max.apply(Math, product_selected.node.sku.map(m => m.price)).toFixed(2) }}
                 </span>
                 <span class="text-weight-bold text-h5" v-else>
-                  ${{ selected[0].price.toFixed(2) }}
+                  ${{ selected[0].price }}
                 </span>
+              </span>
+              <span class="text-weight-bold text-h5" v-else-if="product_selected.node.sku.length === 1">
+                Price: ${{ product_selected.node.sku[0].price }}
               </span>
               <span v-else class="text-negative text-center text-h5 text-weight-bold">
                 Unavailable
@@ -196,10 +158,11 @@ export default {
       () => variables,
     );
 
-    const {product_selected, valid_option} = productPageState();
+    const {product_selected, valid_option, image_list} = productPageState();
 
     return {
       valid_option,
+      image_list,
       product_selected,
       selected,
       helper_arr_reactive,
